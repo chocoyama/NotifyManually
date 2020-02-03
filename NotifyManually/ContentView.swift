@@ -31,7 +31,7 @@ class ViewModel1: ObservableObject {
     @Published private(set) var title: String = "Hello, World!"
     
     func onTapButton() {
-        self.title = "Hello, SwiftUI!"
+        self.title = "Hello, Published!"
     }
 }
 
@@ -49,7 +49,7 @@ class ViewModel2: ObservableObject {
     }
     
     func onTapButton() {
-        self.title = "Hello, SwiftUI!"
+        self.title = "Hello, ObservableObjectPublisher!"
     }
 }
 

@@ -16,6 +16,12 @@ struct ContentView: View {
         VStack {
             Text(viewModel1.title)
             Text(viewModel2.title)
+            Button(action: {
+                self.viewModel1.onTapButton()
+                self.viewModel2.onTapButton()
+            }) {
+                Text("Button")
+            }
         }
     }
 }
@@ -24,10 +30,8 @@ struct ContentView: View {
 class ViewModel1: ObservableObject {
     @Published private(set) var title: String = "Hello, World!"
     
-    init() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.title = "Hello, SwiftUI!"
-        }
+    func onTapButton() {
+        self.title = "Hello, SwiftUI!"
     }
 }
 
@@ -44,10 +48,8 @@ class ViewModel2: ObservableObject {
         }
     }
     
-    init() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.title = "Hello, SwiftUI!"
-        }
+    func onTapButton() {
+        self.title = "Hello, SwiftUI!"
     }
 }
 

@@ -9,8 +9,45 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewModel1 = ViewModel1()
+    @ObservedObject var viewModel2 = ViewModel2()
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+            Text(viewModel1.title)
+            Text(viewModel2.title)
+        }
+    }
+}
+
+// Publishedを利用するパターン
+class ViewModel1: ObservableObject {
+    @Published private(set) var title: String = "Hello, World!"
+    
+    init() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.title = "Hello, SwiftUI!"
+        }
+    }
+}
+
+// Publishedを利用しないパターン
+import Combine
+class ViewModel2: ObservableObject {
+    // ObservableObjectプロトコルで宣言されているobjectWillChangeを実装する
+    var objectWillChange: ObservableObjectPublisher = ObservableObjectPublisher()
+    
+    private(set) var title: String = "Hello, World!" {
+        willSet {
+            // データの更新が発生するタイミングでイベントを発生させる
+            self.objectWillChange.send()
+        }
+    }
+    
+    init() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.title = "Hello, SwiftUI!"
+        }
     }
 }
 
